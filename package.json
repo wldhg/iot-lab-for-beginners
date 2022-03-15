@@ -1,0 +1,54 @@
+{
+  "name": "aiot-web-lab",
+  "version": "0.0.1-alpha",
+  "author": "Jio Gim <jio@wldh.org>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "next dev"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.5.1",
+    "@mui/material": "^5.5.1",
+    "@types/lowdb": "^1.0.11",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
+    "async-mutex": "^0.3.2",
+    "atob": "^2.1.2",
+    "axios": "^0.26.1",
+    "csstype": "^3.0.11",
+    "lowdb": "^3.0.0",
+    "moment": "^2.29.1",
+    "next": "^12.1.0",
+    "pino": "^7.8.1",
+    "react": "^17.0.2",
+    "react-app": "^1.1.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.49.9",
+    "typescript": "^4.6.2",
+    "webpack": "^5.70.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-syntax-flow": "^7.16.7",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-hooks": "^4.3.0"
+  }
+}

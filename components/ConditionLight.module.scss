@@ -1,0 +1,15 @@
+@import "./_common.scss";
+
+.box {
+  width: 200px;
+  height: 60px;
+  border: 1px solid lightgray;
+  margin: 15px 0 20px;
+  border-radius: 5px;
+
+  .number {
+    color: white;
+    font-weight: 900;
+    mix-blend-mode: difference;
+  }
+}

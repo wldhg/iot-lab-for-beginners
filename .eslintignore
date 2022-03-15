@@ -1,0 +1,11 @@
+# compiled output
+/docs/
+
+# dependencies
+/node_modules/
+
+# next types
+next-env.d.ts
+
+# misc
+!.*

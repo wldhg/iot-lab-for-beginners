@@ -1,0 +1,12 @@
+@import "./_common.scss";
+
+.number {
+  font-weight: 900;
+}
+
+.unit {
+  font-weight: 900;
+  opacity: .5;
+  font-size: .65em;
+  color: var(--c-acc);
+}

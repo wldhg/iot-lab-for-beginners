@@ -1,0 +1,13 @@
+.container {
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 20px;
+  text-align: center;
+
+  .title {
+    font-weight: 700;
+  }
+}

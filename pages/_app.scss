@@ -1,0 +1,43 @@
+$f-family-base: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+$f-family-mono: 'Fira Mono', 'Consolas', monospace;
+$f-size-base: 16px;
+
+$c-white: #ececec;
+$c-black: #090a0c;
+$c-accent: #e52f06;
+
+html {
+  font-family: $f-family-base;
+  font-size: $f-size-base;
+  font-weight: 400;
+  background-color: var(--c-bg) !important;
+  color: var(--c-fg) !important;
+  min-width: 360px;
+
+  :focus {
+    outline: none;
+  }
+
+  ::selection {
+    color: $c-white;
+    background-color: $c-accent;
+  }
+
+  --c-acc: #{$c-accent};
+  --c-bg: #{$c-white};
+  --c-fg: #{$c-black};
+}
+
+body {
+  text-align: left;
+  margin: 0;
+  word-break: keep-all;
+
+  a {
+    text-decoration: none;
+
+    &:target, &:focus, &:active, &:hover {
+      text-decoration: underline;
+    }
+  }
+}
