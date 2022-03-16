@@ -1,6 +1,6 @@
 import { Mutex } from 'async-mutex';
 import http from 'http';
-import { JSONFile, Low } from 'lowdb';
+import { JSONFile, Low } from 'lowdb'; // eslint-disable-line import/no-unresolved
 import moment from 'moment';
 import path from 'path';
 import pino from 'pino';

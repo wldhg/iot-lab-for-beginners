@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "author": "Jio",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": -221.33, "left": -36, "attrs": {} },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -229.7,
+      "left": 89.17,
+      "attrs": { "temperature": "46.4", "humidity": "22" }
+    },
+    { "type": "wokwi-rgb-led", "id": "rgb1", "top": -204.2, "left": 171.78, "attrs": {} },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": -107.7,
+      "left": -228.17,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "dht1:SDA", "esp:D4", "green", [ "v0" ] ],
+    [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "rgb1:COM", "esp:3V3", "green", [ "v0" ] ],
+    [ "rgb1:R", "esp:D15", "green", [ "v0" ] ],
+    [ "ldr1:VCC", "esp:VIN", "red", [ "h13.11", "v27.74" ] ],
+    [ "ldr1:GND", "esp:GND.2", "black", [ "h9.11", "v9.07" ] ],
+    [ "ldr1:AO", "esp:D35", "green", [ "h10.44", "v-81.76" ] ],
+    [ "rgb1:G", "esp:D2", "green", [ "v0" ] ],
+    [ "rgb1:B", "esp:D5", "green", [ "v0" ] ]
+  ]
+}

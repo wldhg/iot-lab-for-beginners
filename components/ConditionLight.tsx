@@ -48,7 +48,7 @@ const ConditionLight: React.FC<Prop> = function (props: Prop) {
           {data}
         </Typography>
       </div>
-      <span className={$.timeIndicator}>
+      <span className={$.description}>
         Updated&nbsp;:&nbsp;
         {time}
       </span>

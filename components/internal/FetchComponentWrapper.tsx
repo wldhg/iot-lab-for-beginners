@@ -15,11 +15,12 @@ interface ComponentProps extends FetchComponentBaseProps {
   dataFetchCallback: (data: any[][]) => void
   dataFetchCount?: number
   children?: React.ReactElement | React.ReactElement[]
+  className?: string
 }
 
 export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: ComponentProps) {
   const {
-    children, label, dataID, dataFetchInterval, dataFetchCount, dataFetchCallback,
+    children, label, dataID, dataFetchInterval, dataFetchCount, dataFetchCallback, className,
   } = props;
 
   useEffect(() => {
@@ -43,14 +44,23 @@ export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: 
         }
       }).catch(console.error); // eslint-disable-line no-console
     };
-    const interval = setInterval(dataFetch, dataFetchInterval);
+
     dataFetch();
 
-    return () => clearInterval(interval);
+    if (typeof dataFetchInterval === 'number' && dataFetchInterval > 0) {
+      const interval = setInterval(dataFetch, dataFetchInterval);
+      return () => clearInterval(interval);
+    }
+    return () => 0;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  let finalClassName = $.container;
+  if (className) {
+    finalClassName += ` ${className}`;
+  }
+
   return (
-    <div className={$.container}>
+    <div className={finalClassName}>
       <Typography className={$.title} variant="h6" component="h2">{label}</Typography>
       {children}
     </div>
@@ -61,4 +71,5 @@ FetchComponentWrapper.defaultProps = {
   children: undefined,
   dataFetchInterval: 1000,
   dataFetchCount: 1,
+  className: undefined,
 };

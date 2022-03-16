@@ -1,0 +1,39 @@
+@import "./_common.scss";
+
+.container {
+  .innerContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .titleContainer {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+
+    .title {
+      position: relative;
+      font-weight: 900;
+      display: inline-block;
+      color: var(--c-bg);
+
+      &::before {
+        $pad-hori: 30px;
+        $pad-vert: 5px;
+
+        content: attr(data-label);
+        display: table;
+        white-space: nowrap;
+        color: transparent;
+        padding: $pad-vert $pad-hori;
+        position: absolute;
+        background-color: var(--c-acc);
+        transform: skewX(-25deg);
+        left: -1 * $pad-hori;
+        top: -1 * $pad-vert;
+        z-index: -1;
+      }
+    }
+  }
+}

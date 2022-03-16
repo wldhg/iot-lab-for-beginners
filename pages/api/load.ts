@@ -1,6 +1,7 @@
 import { Mutex } from 'async-mutex';
+import axios from 'axios';
 import http from 'http';
-import { JSONFile, Low } from 'lowdb';
+import { JSONFile, Low } from 'lowdb'; // eslint-disable-line import/no-unresolved
 import path from 'path';
 import pino from 'pino';
 import { fileURLToPath } from 'url';
@@ -37,16 +38,20 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
 
     const key = (I.headers['query-key'] || '__unknown') as string;
     const count = Number.parseInt((I.headers['query-count'] || 1) as string, 10);
+    const action = (I.headers['query-action'] || '__unknown') as string;
     if (key === '__unknown') {
-      return log.info(doResponse(null, 1, 'No key provided'));
+      log.info(doResponse(null, 1, 'No key provided'));
+      return;
     }
     if (count <= 0) {
-      return log.info(doResponse(null, 1, 'Count must be greater than 0'));
+      log.info(doResponse(null, 1, 'Count must be greater than 0'));
+      return;
     }
 
     const data = db.data || {};
     if (!(key in data)) {
-      return log.info(doResponse([]));
+      log.info(doResponse([]));
+      return;
     }
 
     let realCount = count;
@@ -55,7 +60,21 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
     }
 
     const returnData = data[key].slice(-1 * realCount);
-    return log.info(doResponse(returnData));
+    log.info(doResponse(returnData));
+
+    switch (action) {
+      case 'set-zero':
+        axios({
+          method: 'post',
+          url: `http://${I.headers.host}/api/save`,
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          data: `${key}=0`,
+        }).catch(log.error);
+    }
+
+    return;
   }
 
   log.info(doResponse(null, 1, 'Method not allowed'));
