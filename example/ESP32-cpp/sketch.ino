@@ -8,7 +8,7 @@
 
 AsyncTimer t;
 DHTesp dht;
-ConnectPoint cp("sango.monet.re.kr", 3000);
+ConnectPoint cp("localhost", 3000);
 
 float humidity;
 float temperature;
@@ -23,7 +23,7 @@ void setup() {
   pinMode(35, INPUT);
 
   dht.setup(4, DHTesp::DHT22);
-  
+
   Serial.print("Connecting to WiFi");
   WiFi.begin("Wokwi-GUEST", "", 6);
   while (WiFi.status() != WL_CONNECTED) {
@@ -31,7 +31,7 @@ void setup() {
     Serial.print(".");
   }
   Serial.println(" Connected!");
-  
+
   t.setInterval([]() {
     TempAndHumidity data = dht.getTempAndHumidity();
     if (!isnan(data.temperature)) {

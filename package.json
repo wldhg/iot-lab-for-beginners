@@ -1,6 +1,6 @@
 {
-  "name": "aiot-web-lab",
-  "version": "0.0.1-alpha",
+  "name": "iot-remote-lab",
+  "version": "0.0.1",
   "author": "Jio Gim <jio@wldh.org>",
   "license": "UNLICENSED",
   "private": true,

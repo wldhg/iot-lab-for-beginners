@@ -8,10 +8,10 @@ import ToggleSwitch from 'components/ToggleSwitch';
 
 const Page: React.FC = function () {
   return (
-    <PageWrapper title="AIoT Lab Example">
-      <ControlGroup label="온습도 센서">
-        <NumberDisplay label="온도" dataID="temperature" dataFetchInterval={1000} unit="℃" />
-        <NumberDisplay label="습도" dataID="humidity" dataFetchInterval={1000} unit="%" />
+    <PageWrapper title="IoT Lab Example">
+      <ControlGroup label="DHT Sensor">
+        <NumberDisplay label="Temperature" dataID="temperature" dataFetchInterval={1000} unit="℃" />
+        <NumberDisplay label="Humidity" dataID="humidity" dataFetchInterval={1000} unit="%" />
         <ConditionLight
           label="Is the air dry?"
           dataID="humidity"
@@ -19,10 +19,10 @@ const Page: React.FC = function () {
           coloringRule={(data: number) => (data < 30 ? '#00FF00' : '#FF0000')}
         />
       </ControlGroup>
-      <ControlGroup label="빛 조작">
+      <ControlGroup label="Light Control">
         <NumberDisplay label="LUX" dataID="lux" dataFetchInterval={1000} unit="LUX" />
-        <PushButton label="LUX 조회" dataID="update-lux" buttonText="조회하기" description="몇 초 걸립니다." />
-        <ToggleSwitch label="LED" dataID="config-light" description="반영에 몇 초 걸립니다." />
+        <PushButton label="Query LUX" dataID="update-lux" buttonText="Query" description="This takes few seconds." />
+        <ToggleSwitch label="LED" dataID="config-light" description="It takes few seconds to be applied." />
       </ControlGroup>
     </PageWrapper>
   );
