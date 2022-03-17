@@ -8,7 +8,7 @@
 
 AsyncTimer t;
 DHTesp dht;
-ConnectPoint cp("localhost", 3000);
+ConnectPoint cp("your-ip-or-domain", 3000);
 
 float humidity;
 float temperature;

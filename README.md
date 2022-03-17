@@ -14,8 +14,8 @@
 3. Install the dependencies. `npm install`
 4. Run the server. `npm run dev`
 5. Go to `https://wokwi.com/projects/326257884268593746`.
-6. Edit line 11, `sango.monet.re.kr` to your server's IP address or domain. \
-    If you are using port rather than 3000 on your server, also edit line 11, `3000` to your port number.
+6. Edit line 11, `your-ip-or-domain` to your server's IP address or domain. \
+    If you are using port rather than `3000` on your server, also edit line 11, `3000` to your port number.
 7. Run the simulation using the green start button.
 8. Go to `http://your-ip-or-domain:port/panel/example`.
 9. Enjoy!
