@@ -18,7 +18,8 @@
       "top": -107.7,
       "left": -228.17,
       "attrs": {}
-    }
+    },
+    { "type": "wokwi-servo", "id": "servo1", "top": -321.16, "left": -105.02, "attrs": {} }
   ],
   "connections": [
     [ "esp:TX0", "$serialMonitor:RX", "", [] ],
@@ -30,8 +31,11 @@
     [ "rgb1:R", "esp:D15", "green", [ "v0" ] ],
     [ "ldr1:VCC", "esp:VIN", "red", [ "h13.11", "v27.74" ] ],
     [ "ldr1:GND", "esp:GND.2", "black", [ "h9.11", "v9.07" ] ],
-    [ "ldr1:AO", "esp:D35", "green", [ "h10.44", "v-81.76" ] ],
     [ "rgb1:G", "esp:D2", "green", [ "v0" ] ],
-    [ "rgb1:B", "esp:D5", "green", [ "v0" ] ]
+    [ "rgb1:B", "esp:D5", "green", [ "v0" ] ],
+    [ "ldr1:AO", "esp:D35", "green", [ "h8.33", "v-95.98" ] ],
+    [ "servo1:V+", "esp:VIN", "green", [ "h-27.56", "v147", "h90.08", "v65.65" ] ],
+    [ "servo1:GND", "esp:GND.2", "black", [ "h-19.92", "v147.34", "h86.26", "v82.45" ] ],
+    [ "servo1:PWM", "esp:D33", "green", [ "h-12.29", "v87.88" ] ]
   ]
 }

@@ -1,6 +1,7 @@
 #include <AsyncTimer.h>
 #include <WiFi.h>
 #include <DHTesp.h>
+#include <ESP32Servo.h>
 #include "ConnectPoint.h"
 
 #define GAMMA  0.7
@@ -8,6 +9,7 @@
 
 AsyncTimer t;
 DHTesp dht;
+Servo servo;
 ConnectPoint cp("your-ip-or-domain", 3000);
 
 float humidity;
@@ -20,9 +22,11 @@ void setup() {
   pinMode(5, OUTPUT);
   pinMode(4, INPUT);
   pinMode(15, OUTPUT);
+  pinMode(33, OUTPUT);
   pinMode(35, INPUT);
 
   dht.setup(4, DHTesp::DHT22);
+  servo.attach(33);
 
   Serial.print("Connecting to WiFi");
   WiFi.begin("Wokwi-GUEST", "", 6);
@@ -81,6 +85,14 @@ void setup() {
         }
         Serial.println("Uploaded LUX data.");
       }
+    }
+  }, 2000);
+
+  t.setInterval([]() {
+    int confServo = int(cp.getData("config-servo"));
+    if (confServo != -1) {
+      Serial.println("Queried servo config : " + String(confServo));
+      servo.write(confServo);
     }
   }, 2000);
 }

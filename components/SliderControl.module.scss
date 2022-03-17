@@ -1,0 +1,12 @@
+@import "./_common.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .box {
+    margin-top: 38px;
+  }
+}
