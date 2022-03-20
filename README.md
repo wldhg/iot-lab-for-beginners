@@ -15,7 +15,7 @@
 - ESP32 C++ example code
 - IoT web server with customizable control panels
 - JSON-based DB (powered by `lowdb`)
-- Remote PyTorch inference (powered by `torch-js`)
+- On-server ML inference (powered by `onnxruntime-node`)
 
 ### How To Use IoT Control Panel:
 
