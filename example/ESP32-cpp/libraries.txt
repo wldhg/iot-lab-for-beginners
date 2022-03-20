@@ -5,3 +5,4 @@ DHT sensor library for ESPx
 AsyncTimer
 ArduinoJson
 ESP32Servo
+U8g2

@@ -1,7 +1,8 @@
 #include <AsyncTimer.h>
-#include <WiFi.h>
 #include <DHTesp.h>
 #include <ESP32Servo.h>
+#include <U8g2lib.h>
+#include <WiFi.h>
 #include "ConnectPoint.h"
 
 #define GAMMA  0.7
@@ -11,6 +12,7 @@ AsyncTimer t;
 DHTesp dht;
 Servo servo;
 ConnectPoint cp("your-ip-or-domain", 3000);
+U8X8_SSD1306_128X64_NONAME_HW_I2C display(U8X8_PIN_NONE);
 
 float humidity;
 float temperature;
@@ -72,7 +74,7 @@ void setup() {
   }, 2000);
 
   t.setInterval([]() {
-    int updateLUX = int(cp.getData("update-lux", true));
+    int updateLUX = int(cp.getData("update-lux", "set-zero"));
     if (updateLUX != -1) {
       if (updateLUX == 1) {
         int analogValue = analogRead(35);
@@ -95,6 +97,36 @@ void setup() {
       servo.write(confServo);
     }
   }, 2000);
+
+
+  display.begin();
+  display.setPowerSave(0);
+  display.setFont(u8x8_font_pxplusibmcgathin_f);
+  display.clearDisplay();
+  display.drawString(1, 1, "DHT Prediction");
+  t.setInterval([]() {
+    float predTemp = cp.getData("temperature", "inference");
+    float predHumi = cp.getData("humidity", "inference");
+
+    if (predTemp != -1) {
+      display.clearLine(3);
+      display.drawString(1, 3, "Temp.");
+      display.setCursor(7, 3);
+      display.print(predTemp);
+      display.drawString(13, 3, "\xb0");
+      display.drawString(14, 3, "C");
+      Serial.println("Queried temperature prediction : " + String(predTemp));
+    }
+
+    if (predHumi != -1) {
+      display.clearLine(5);
+      display.drawString(1, 5, "Humi.");
+      display.setCursor(7, 5);
+      display.print(predHumi);
+      display.drawString(13, 5, "%");
+      Serial.println("Queried humidity prediction : " + String(predHumi));
+    }
+  }, 3000);
 }
 
 void loop() {

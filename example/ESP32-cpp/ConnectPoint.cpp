@@ -1,8 +1,9 @@
 #include "ConnectPoint.h"
 
-#define RES_BUFFER_SIZE   4096
-#define DEBUG_HTTP        false
-#define REQ_DEFAULT_PORT  80
+#define RES_BUFFER_SIZE        4096
+#define DEBUG_HTTP             false
+#define REQ_DEFAULT_PORT       80
+#define HTTP_LINE_BUFFER_SIZE  64
 
 ConnectPoint::ConnectPoint(const char host[]) {
   _host = host;
@@ -49,7 +50,7 @@ bool ConnectPoint::_isSuccessful(String res) {
       break;
     }
     if (line.indexOf("HTTP/") == 0) {
-      char s[64];
+      char s[HTTP_LINE_BUFFER_SIZE];
       int i;
       sscanf(line.c_str(), "HTTP/1.1 %d %s", &i, s);
       if (i == 200) {
@@ -86,16 +87,17 @@ DynamicJsonDocument* ConnectPoint::_parseData(String res) {
 }
 
 float ConnectPoint::getData(const char dataID[]) {
-  return getData(dataID, false);
+  return getData(dataID, nullptr);
 }
 
-float ConnectPoint::getData(const char dataID[], bool setZeroOnQuery) {
+float ConnectPoint::getData(const char dataID[], const char action[]) {
   while(!_wc.connect(_host, _port)) {
     Serial.println("Retrying to connect host...");
   };
 
-  char req1[256];
-  char req2[256];
+  char req1[HTTP_LINE_BUFFER_SIZE];
+  char req2[HTTP_LINE_BUFFER_SIZE];
+  char req3[HTTP_LINE_BUFFER_SIZE];
 
   sprintf(req1, "Host: %s:%d", _host, _port);
   sprintf(req2, "query-key: %s", dataID);
@@ -104,8 +106,9 @@ float ConnectPoint::getData(const char dataID[], bool setZeroOnQuery) {
   _println(req1);
   _println(req2);
   _println("query-count: 1");
-  if (setZeroOnQuery) {
-    _println("query-action: set-zero");
+  if (action != nullptr) {
+    sprintf(req3, "query-action: %s", action);
+    _println(req3);
   }
   _println("");
 
@@ -160,8 +163,8 @@ bool ConnectPoint::setData() {
     Serial.println("Retrying to connect host...");
   };
 
-  char req1[256];
-  char req2[256];
+  char req1[HTTP_LINE_BUFFER_SIZE];
+  char req2[HTTP_LINE_BUFFER_SIZE];
 
   ATOMIC() {
     while (_bufferLocked);

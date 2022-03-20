@@ -4,11 +4,7 @@
 // SimplyAtomic.h
 // https://github.com/wizard97/SimplyAtomic
 
-#ifdef ARDUINO
 #include <Arduino.h>
-#else
-#include <stdint.h>
-#endif
 
 static __inline__ void SA_iRestore(const  uint32_t *__s) {
   XTOS_RESTORE_INTLEVEL(*__s);
@@ -45,7 +41,7 @@ public:
   ConnectPoint(const char host[], int port, bool removeOnGet);
 
   float getData(const char dataID[]);
-  float getData(const char dataID[], bool setZeroOnQuery);
+  float getData(const char dataID[], const char action[]);
 
   void bufferData(const char dataID[], float dataValue);
   bool setData();
