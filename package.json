@@ -1,8 +1,8 @@
 {
   "name": "iot-remote-lab",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Jio Gim <jio@wldh.org>",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev"
@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.1",
+    "@types/js-yaml": "^4.0.5",
     "@types/lowdb": "^1.0.11",
     "@types/node": "^17.0.21",
     "@types/react": "^17.0.39",
@@ -23,9 +24,11 @@
     "atob": "^2.1.2",
     "axios": "^0.26.1",
     "csstype": "^3.0.11",
+    "js-yaml": "^4.1.0",
     "lowdb": "^3.0.0",
     "moment": "^2.29.1",
     "next": "^12.1.0",
+    "onnxruntime-node": "^1.10.0",
     "pino": "^7.8.1",
     "react": "^17.0.2",
     "react-app": "^1.1.2",

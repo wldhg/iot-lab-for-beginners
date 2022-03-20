@@ -1,0 +1,9 @@
+mappings:
+  temperature:
+    model_name: temp_predict.onnx
+    count: 3
+    timestamp_addi: 60.0
+  humidity:
+    model_name: humi_predict.onnx
+    count: 3
+    timestamp_addi: 60.0

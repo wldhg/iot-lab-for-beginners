@@ -12,7 +12,7 @@ interface Prop extends FetchComponentBaseProps {
 
 const NumberDisplay: React.FC<Prop> = function (props: Prop) {
   const {
-    label, dataID, dataFetchInterval, unit,
+    label, dataID, dataFetchInterval, unit, action,
   } = props;
   const [data, setData] = useState(0);
   const [time, setTime] = useState('Loading Data...');
@@ -29,6 +29,7 @@ const NumberDisplay: React.FC<Prop> = function (props: Prop) {
   return (
     <FetchComponentWrapper
       label={label}
+      action={action}
       dataID={dataID}
       dataFetchInterval={dataFetchInterval}
       dataFetchCount={1}

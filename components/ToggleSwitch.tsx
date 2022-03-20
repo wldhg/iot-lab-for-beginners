@@ -10,7 +10,9 @@ interface Props extends FetchComponentBaseProps {
 };
 
 const ToggleSwitch: React.FC<Props> = function (props: Props) {
-  const { label, dataID, description } = props;
+  const {
+    label, dataID, description, action,
+  } = props;
   const [disabled, setDisabled] = useState(true);
   const [checked, setChecked] = useState(false);
 
@@ -43,6 +45,7 @@ const ToggleSwitch: React.FC<Props> = function (props: Props) {
     <FetchComponentWrapper
       className={$.container}
       label={label}
+      action={action}
       dataID={dataID}
       dataFetchInterval={0}
       dataFetchCount={1}

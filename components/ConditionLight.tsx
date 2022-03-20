@@ -13,7 +13,7 @@ interface Prop extends FetchComponentBaseProps {
 
 const ConditionLight: React.FC<Prop> = function (props: Prop) {
   const {
-    label, dataID, dataFetchInterval, coloringRule, displayValue,
+    label, dataID, dataFetchInterval, coloringRule, displayValue, action,
   } = props;
   const [color, setColor] = useState('transparent');
   const [data, setData] = useState('');
@@ -38,6 +38,7 @@ const ConditionLight: React.FC<Prop> = function (props: Prop) {
   return (
     <FetchComponentWrapper
       label={label}
+      action={action}
       dataID={dataID}
       dataFetchInterval={dataFetchInterval}
       dataFetchCount={1}

@@ -1,6 +1,38 @@
+*.pt
+*.pth
+*.onnx
+!/example/inference/humi_predict.onnx
+!/example/inference/temp_predict.onnx
 
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,yarn,nextjs
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,node,yarn,nextjs
+*.yaml
+!/example/inference/model_map.yaml
+
+*.json
+!/eslintrc.json
+!/package-lock.json
+!/package.json
+!/tsconfig.json
+!/example/ESP32-cpp/diagram.json
+
+/pages/panel/*
+!/pages/panel/example.tsx
+
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,yarn,nextjs,jupyternotebooks,pythonvanilla
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,node,yarn,nextjs,jupyternotebooks,pythonvanilla
+
+### JupyterNotebooks ###
+# gitignore template for Jupyter Notebooks
+# website: http://jupyter.org/
+
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Remove previous ipynb_checkpoints
+#   git rm -r .ipynb_checkpoints/
 
 ### NextJS ###
 # Next build dir
@@ -146,6 +178,73 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+### PythonVanilla ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -184,8 +283,4 @@ dist
 # and uncomment the following lines
 # .pnp.*
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,yarn,nextjs
-
-/db.json
-/pages/panel/*
-!/pages/panel/example.tsx
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,yarn,nextjs,jupyternotebooks,pythonvanilla

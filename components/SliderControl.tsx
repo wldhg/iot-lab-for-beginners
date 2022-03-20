@@ -17,7 +17,7 @@ interface Props extends FetchComponentBaseProps {
 
 const SliderControl: React.FC<Props> = function (props: Props) {
   const {
-    label, dataID, min, max, description, unit, step,
+    label, dataID, min, max, description, unit, step, action,
   } = props;
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(0);
@@ -56,6 +56,7 @@ const SliderControl: React.FC<Props> = function (props: Props) {
     <FetchComponentWrapper
       className={$.container}
       label={label}
+      action={action}
       dataID={dataID}
       dataFetchInterval={0}
       dataFetchCount={1}

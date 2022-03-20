@@ -14,12 +14,30 @@ const Page: React.FC = function () {
         <NumberDisplay label="Temperature" dataID="temperature" dataFetchInterval={1000} unit="℃" />
         <NumberDisplay label="Humidity" dataID="humidity" dataFetchInterval={1000} unit="%" />
         <ConditionLight
-          label="Is the air dry?"
+          label="Air Humidity Condition"
           dataID="humidity"
           dataFetchInterval={1000}
-          coloringRule={(data: number) => (data < 30 ? '#00FF00' : '#FF0000')}
+          coloringRule={(humidity: number) => (humidity < 85 ? '#00FF00' : '#FF0000')}
         />
       </ControlGroup>
+      {/*
+      <ControlGroup label="H/T Inference">
+        <NumberDisplay
+          label="Temperature After 1m"
+          dataID="temperature"
+          action="inference"
+          dataFetchInterval={1000}
+          unit="℃"
+        />
+        <NumberDisplay
+          label="Humidity After 1m"
+          dataID="humidity"
+          action="inference"
+          dataFetchInterval={1000}
+          unit="%"
+        />
+      </ControlGroup>
+      */}
       <ControlGroup label="Light Control">
         <NumberDisplay label="LUX" dataID="lux" dataFetchInterval={1000} unit="LUX" />
         <PushButton label="Query LUX" dataID="update-lux" buttonText="Query" description="This takes few seconds." />

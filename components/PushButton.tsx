@@ -12,7 +12,7 @@ interface Props extends FetchComponentBaseProps {
 
 const PushButton: React.FC<Props> = function (props: Props) {
   const {
-    label, dataID, buttonText, description,
+    label, dataID, buttonText, description, action,
   } = props;
 
   const dataProcessor = (d: any[][]) => {};
@@ -31,6 +31,7 @@ const PushButton: React.FC<Props> = function (props: Props) {
     <FetchComponentWrapper
       className={$.container}
       label={label}
+      action={action}
       dataID={dataID}
       dataFetchInterval={0}
       dataFetchCount={1}

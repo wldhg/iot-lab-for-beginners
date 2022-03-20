@@ -9,6 +9,7 @@ export interface FetchComponentBaseProps {
   label: string
   dataID: string
   dataFetchInterval?: number
+  action?: string
 };
 
 interface ComponentProps extends FetchComponentBaseProps {
@@ -21,6 +22,7 @@ interface ComponentProps extends FetchComponentBaseProps {
 export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: ComponentProps) {
   const {
     children, label, dataID, dataFetchInterval, dataFetchCount, dataFetchCallback, className,
+    action,
   } = props;
 
   useEffect(() => {
@@ -31,6 +33,7 @@ export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: 
         headers: {
           'query-key': dataID,
           'query-count': Number(dataFetchCount).toString(),
+          'query-action': action || '__unknown',
         },
         responseType: 'json',
       }).then((res) => {
@@ -72,4 +75,5 @@ FetchComponentWrapper.defaultProps = {
   dataFetchInterval: 1000,
   dataFetchCount: 1,
   className: undefined,
+  action: '__unknown',
 };
