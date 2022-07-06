@@ -11,7 +11,7 @@
 AsyncTimer t;
 DHTesp dht;
 Servo servo;
-ConnectPoint cp("your-host-or-ip", 3000);
+ConnectPoint cp("your-ip-or-domain", 3000);
 U8X8_SSD1306_128X64_NONAME_HW_I2C display(U8X8_PIN_NONE);
 
 // "Wrongly formed data" error can be appeared in below cases

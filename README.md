@@ -41,7 +41,7 @@
 6. Install `DHT sensor`, `U8g2`, `SimplyAtomic`, `ArduinoJson`, `AsyncTimer` library from Arduino Library Manager.
 7. Install `SoftPWM`, `Adafruit_Sensor-master` library from [here](https://github.com/monetIOT/IoT/tree/master/arduino/libraries).
 8. Install `Vegemite` library at `example/ArduinoMega-cpp/Vegemite`.
-9. Configure VitCon IoT-MODLINK WiFi-LINK. Host is `your-ip-or-domain` and port is `3010`.
+9. Configure VitCon IoT-MODLINK WiFi-LINK with [this Android app](https://play.google.com/store/apps/details?id=vitcon.wificonnectionmanager) or [this iOS app](https://apps.apple.com/app/wifi-connection-manager/id1422994754). Host is `your-ip-or-domain` and port is `3010`.
 10. Open `example/ArduinoMega-cpp/sketch.ino` and compile it.
 11. Upload the program.
 12. Go to `http://your-ip-or-domain:port/panel/example`.

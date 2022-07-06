@@ -2,7 +2,7 @@ import net from 'net';
 import pino, { P } from 'pino';
 import axios from 'axios';
 
-const port = 8080;
+const port = 3010;
 const apiPort = 3000;
 
 const log = pino();
