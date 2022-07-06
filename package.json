@@ -1,15 +1,17 @@
 {
   "name": "iot-remote-lab",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Jio Gim <jio@wldh.org>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "broker": "node --loader ts-node/esm ./broker/main.ts"
   },
   "engines": {
     "node": ">=16.0.0"
   },
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
@@ -34,6 +36,7 @@
     "react-app": "^1.1.2",
     "react-dom": "^17.0.2",
     "sass": "^1.49.9",
+    "ts-node": "^10.8.2",
     "typescript": "^4.6.2",
     "webpack": "^5.70.0"
   },

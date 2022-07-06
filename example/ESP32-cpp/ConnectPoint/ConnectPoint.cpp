@@ -1,9 +1,9 @@
 #include "ConnectPoint.h"
 
-#define RES_BUFFER_SIZE        4096
-#define DEBUG_HTTP             false
-#define REQ_DEFAULT_PORT       80
-#define HTTP_LINE_BUFFER_SIZE  64
+#define RES_BUFFER_SIZE 4096
+#define DEBUG_HTTP false
+#define REQ_DEFAULT_PORT 80
+#define HTTP_LINE_BUFFER_SIZE 64
 
 ConnectPoint::ConnectPoint(const char host[]) {
   _host = host;
@@ -25,7 +25,7 @@ ConnectPoint::ConnectPoint(const char host[], int port) {
 
 void ConnectPoint::_println(const char line[]) {
   _wc.println(line);
-  DEBUG_HTTP && Serial.println(line);
+  DEBUG_HTTP&& Serial.println(line);
 }
 
 String ConnectPoint::_getSeparator(String res) {
@@ -91,7 +91,7 @@ float ConnectPoint::getData(const char dataID[]) {
 }
 
 float ConnectPoint::getData(const char dataID[], const char action[]) {
-  while(!_wc.connect(_host, _port)) {
+  while (!_wc.connect(_host, _port)) {
     Serial.println("Retrying to connect host...");
   };
 
@@ -113,9 +113,10 @@ float ConnectPoint::getData(const char dataID[], const char action[]) {
   _println("");
 
   uint32_t resptr = 0;
-  char resChar[RES_BUFFER_SIZE] = { 0 };
+  char resChar[RES_BUFFER_SIZE] = {0};
 
-  while (!_wc.available());
+  while (!_wc.available())
+    ;
   while (_wc.available()) {
     resChar[resptr] = _wc.read();
     if (++resptr >= RES_BUFFER_SIZE) {
@@ -136,13 +137,14 @@ float ConnectPoint::getData(const char dataID[], const char action[]) {
     _wc.stop();
     return -1.0;
   }
-  if ((*doc)["data"].size() != 1 && (*doc)["data"][0].size() != 2) {
+  if ((*doc)["data"].size() != 1 || (*doc)["data"][0].size() != 2 ||
+      (*doc)["data"][0][1].size() != 1 || (*doc)["data"][0][1][0].size() != 2) {
     Serial.println("Wrongly formed data.");
     _wc.stop();
     return -1.0;
   }
 
-  float data = (*doc)["data"][0][1];
+  float data = (*doc)["data"][0][1][0][1];
   delete doc;
 
   _wc.stop();
@@ -151,15 +153,17 @@ float ConnectPoint::getData(const char dataID[], const char action[]) {
 
 void ConnectPoint::bufferData(const char dataID[], float dataValue) {
   ATOMIC() {
-    while (_bufferLocked);
+    while (_bufferLocked)
+      ;
     _bufferLocked = true;
   }
-  _outgoingBuffer = _outgoingBuffer + "\n" + String(String(dataID) + "=" + String(dataValue));
+  _outgoingBuffer =
+      _outgoingBuffer + "\n" + String(String(dataID) + "=" + String(dataValue));
   _bufferLocked = false;
 }
 
 bool ConnectPoint::setData() {
-  while(!_wc.connect(_host, _port)) {
+  while (!_wc.connect(_host, _port)) {
     Serial.println("Retrying to connect host...");
   };
 
@@ -167,7 +171,8 @@ bool ConnectPoint::setData() {
   char req2[HTTP_LINE_BUFFER_SIZE];
 
   ATOMIC() {
-    while (_bufferLocked);
+    while (_bufferLocked)
+      ;
     _bufferLocked = true;
   }
 
@@ -191,9 +196,10 @@ bool ConnectPoint::setData() {
   _bufferLocked = false;
 
   uint32_t resptr = 0;
-  char resChar[RES_BUFFER_SIZE] = { 0 };
+  char resChar[RES_BUFFER_SIZE] = {0};
 
-  while (!_wc.available());
+  while (!_wc.available())
+    ;
   while (_wc.available()) {
     resChar[resptr] = _wc.read();
     if (++resptr >= RES_BUFFER_SIZE) {
@@ -209,7 +215,8 @@ bool ConnectPoint::setData() {
   }
 
   DynamicJsonDocument* doc = _parseData(res);
-  if ((*doc).isNull() || !(*doc).containsKey("code") || !(*doc).containsKey("message")) {
+  if ((*doc).isNull() || !(*doc).containsKey("code") ||
+      !(*doc).containsKey("message")) {
     Serial.println("Wrongly formed response.");
     _wc.stop();
     return false;

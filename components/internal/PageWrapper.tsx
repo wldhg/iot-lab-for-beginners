@@ -2,6 +2,8 @@ import React from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/Typography';
 
+import { GlobalContextProvider } from 'context/global';
+
 import $ from './PageWrapper.module.scss';
 
 interface Props {
@@ -29,7 +31,9 @@ const PageWrapper: React.FC<Props> = function (props: Props) {
       <div className={$.container}>
         {displayTitleInBody && (<Typography className={$.title} variant="h3" component="h1">{fallbackTitle}</Typography>)}
         <div className={$.boxes}>
-          {children}
+          <GlobalContextProvider>
+            {children}
+          </GlobalContextProvider>
         </div>
       </div>
     </>

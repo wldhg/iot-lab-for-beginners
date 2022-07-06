@@ -17,6 +17,7 @@
       font-weight: 900;
       display: inline-block;
       color: var(--c-bg);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
       &::before {
         $pad-hori: 30px;
@@ -33,6 +34,7 @@
         left: -1 * $pad-hori;
         top: -1 * $pad-vert;
         z-index: -1;
+        border-radius: 5px;
       }
     }
   }

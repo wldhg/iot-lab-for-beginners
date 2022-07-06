@@ -11,8 +11,14 @@
 AsyncTimer t;
 DHTesp dht;
 Servo servo;
-ConnectPoint cp("your-ip-or-domain", 3000);
+ConnectPoint cp("your-host-or-ip", 3000);
 U8X8_SSD1306_128X64_NONAME_HW_I2C display(U8X8_PIN_NONE);
+
+// "Wrongly formed data" error can be appeared in below cases
+// 1. The servo motor or LED has never been controlled in the web interface
+// 2. If the DHT prediction model is not prepared correctly
+//    or the number of data required for prediction is insufficient
+//    (in these cases, errors will be printed in the server log)
 
 float humidity;
 float temperature;
@@ -22,12 +28,12 @@ void setup() {
 
   pinMode(2, OUTPUT);
   pinMode(5, OUTPUT);
-  pinMode(4, INPUT);
   pinMode(15, OUTPUT);
+  pinMode(19, INPUT);
   pinMode(33, OUTPUT);
   pinMode(35, INPUT);
 
-  dht.setup(4, DHTesp::DHT22);
+  dht.setup(19, DHTesp::DHT22);
   servo.attach(33);
 
   Serial.print("Connecting to WiFi");
@@ -42,9 +48,15 @@ void setup() {
     TempAndHumidity data = dht.getTempAndHumidity();
     if (!isnan(data.temperature)) {
       temperature = data.temperature;
+      Serial.println("Current temperature : " + String(temperature));
+    } else {
+      Serial.println("Failed to get temperature!");
     }
     if (!isnan(data.humidity)) {
       humidity = data.humidity;
+      Serial.println("Current humidity    : " + String(humidity));
+    } else {
+      Serial.println("Failed to get humidity!");
     }
   }, 1000);
 

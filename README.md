@@ -1,6 +1,6 @@
 ## ![Robot Icon](./public/robot.svg) <br /> **IoT Lab**
 *Includes ONNX runtime support on Node.js.* \
-*Tested on wokwi.com ESP32 C++, for remote AIoT lab sessions.*
+*Tested on wokwi.com ESP32 C++ and VitCon IoT-MODLINK, for remote AIoT lab sessions.*
 
 ---
 
@@ -13,14 +13,15 @@
 ### This Repository Includes:
 
 - ESP32 C++ example code
+- Arduino Mega C++ example code
 - IoT web server with customizable control panels
 - JSON-based DB (powered by `lowdb`)
 - On-server ML inference (powered by `onnxruntime-node`)
 
-### How To Use IoT Control Panel:
+### How To Use IoT Control Panel with Wokwi:
 
 1. Install node.js v16 or higher on your server.
-2. Clone the repository on your server. `git clone https://github.com/wldh-g/iot-remote-lab.git`
+2. Clone the repository on your server. `git clone https://github.com/wldh-g/iot-lab-for-beginners.git`
 3. Install the dependencies. `npm install`
 4. Run the server. `npm run dev`
 5. Go to `https://wokwi.com/projects/326257884268593746`.
@@ -29,6 +30,22 @@
 7. Run the simulation using the green start button.
 8. Go to `http://your-ip-or-domain:port/panel/example`.
 9. Enjoy!
+
+### How To Use IoT Control Panel with VitCon IoT-MODLINK:
+
+1. Install node.js v16 or higher on your server.
+2. Clone the repository on your server. `git clone https://github.com/wldh-g/iot-lab-for-beginners.git`
+3. Install the dependencies. `npm install`
+4. Run the server. `npm run dev`
+5. Run the broker server. `npm run broker`
+6. Install `DHT sensor`, `U8g2`, `SimplyAtomic`, `ArduinoJson`, `AsyncTimer` library from Arduino Library Manager.
+7. Install `SoftPWM`, `Adafruit_Sensor-master` library from [here](https://github.com/monetIOT/IoT/tree/master/arduino/libraries).
+8. Install `Vegemite` library at `example/ArduinoMega-cpp/Vegemite`.
+9. Configure VitCon IoT-MODLINK WiFi-LINK. Host is `your-ip-or-domain` and port is `3010`.
+10. Open `example/ArduinoMega-cpp/sketch.ino` and compile it.
+11. Upload the program.
+12. Go to `http://your-ip-or-domain:port/panel/example`.
+13. Enjoy!
 
 ### How To Use AIoT Remote Inference:
 

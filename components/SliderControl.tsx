@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Box, Slider, Stack, Typography,
 } from '@mui/material';
 import axios from 'axios';
+import GlobalContext from 'context/global';
+
 import { FetchComponentBaseProps, FetchComponentWrapper } from './internal/FetchComponentWrapper';
 
 import $ from './SliderControl.module.scss';
@@ -19,15 +21,16 @@ const SliderControl: React.FC<Props> = function (props: Props) {
   const {
     label, dataID, min, max, description, unit, step, action,
   } = props;
+  const { items } = useContext(GlobalContext);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(0);
 
-  const dataProcessor = (d: any[][]) => {
-    if (d.length > 0) {
-      setValue(d[0][1]);
+  useEffect(() => {
+    if (dataID in items) {
+      setValue(items[dataID].value);
     }
     setDisabled(false);
-  };
+  }, [items, dataID]);
 
   const onChange = (_: any, v: any, __: any) => {
     if (typeof v === 'number') {
@@ -58,9 +61,7 @@ const SliderControl: React.FC<Props> = function (props: Props) {
       label={label}
       action={action}
       dataID={dataID}
-      dataFetchInterval={0}
       dataFetchCount={1}
-      dataFetchCallback={dataProcessor}
     >
       <Stack direction="row" spacing={3} alignItems="center" className={$.box}>
         <Typography variant="h6">{`${min}${unit}`}</Typography>

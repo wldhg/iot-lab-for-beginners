@@ -50,15 +50,11 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
     return;
   }
 
-  const key = (I.headers['query-key'] || '__unknown') as string;
-  const count = Number.parseInt((I.headers['query-count'] || 1) as string, 10);
+  const keyStr = (I.headers['query-key'] || '__unknown') as string;
+  const countStr = (I.headers['query-count'] || '1') as string;
   const action = (I.headers['query-action'] || '__unknown') as string;
-  if (key === '__unknown') {
+  if (keyStr === '__unknown') {
     log.info(doResponse(null, 1, 'No key provided'));
-    return;
-  }
-  if (count <= 0) {
-    log.info(doResponse(null, 1, 'Count must be greater than 0'));
     return;
   }
 
@@ -69,17 +65,22 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
     dbMutexRelease();
   }
 
-  const data = db.data || {};
-  if (!(key in data)) {
-    log.info(doResponse([]));
-    return;
-  }
+  const keys = keyStr.split(',');
+  const counts = countStr.split(',').map((_) => Number.parseInt(_, 10));
 
-  let realCount = count;
-  if (realCount > data[key].length) {
-    realCount = data[key].length;
-  }
-  let returnData = data[key].slice(-1 * realCount);
+  const dbData = db.data || {};
+  const retData = keys.map((key, i) => {
+    let count = 1;
+    if (i >= counts.length) count = counts[counts.length - 1];
+    else count = counts[i];
+
+    if (!(key in dbData)) {
+      return [key, []];
+    }
+
+    count = Math.min(Math.max(1, count), dbData[key]?.length || 0);
+    return [key, dbData[key].slice(-1 * count)];
+  });
 
   switch (action) {
     case 'set-zero':
@@ -89,13 +90,26 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
         headers: {
           'Content-Type': 'text/plain',
         },
-        data: `${key}=0`,
+        data: keys.map((key) => `${key}=0`).join('\n'),
       }).catch(log.error);
+      log.info(doResponse(retData));
       break;
 
     case 'inference':
       try {
-        returnData = await inferData(key, data[key]);
+        const inferencedRet = await Promise.all(
+          retData.map(([key]) => {
+            if (key as string in dbData) {
+              return inferData(key as string, dbData[key as string]);
+            }
+            return Promise.resolve([]);
+          }),
+        );
+        const infKeys = retData.map(([k]) => `${k}-inf`);
+        inferencedRet.forEach((inferenced, i) => {
+          retData.push([`${infKeys[i]}`, inferenced]);
+        });
+        log.info(doResponse(retData));
       } catch (e) {
         log.error(e);
         if (e instanceof Error) {
@@ -106,9 +120,10 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
         return;
       };
       break;
-  }
 
-  log.info(doResponse(returnData));
+    default:
+      log.info(doResponse(retData));
+  }
 };
 
 const inferData = async (dataID: string, data: DBContent) : Promise<DBContent> => {

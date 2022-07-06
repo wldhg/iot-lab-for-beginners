@@ -15,7 +15,6 @@ const PushButton: React.FC<Props> = function (props: Props) {
     label, dataID, buttonText, description, action,
   } = props;
 
-  const dataProcessor = (d: any[][]) => {};
   const onClick = () => {
     axios({
       method: 'post',
@@ -33,9 +32,7 @@ const PushButton: React.FC<Props> = function (props: Props) {
       label={label}
       action={action}
       dataID={dataID}
-      dataFetchInterval={0}
       dataFetchCount={1}
-      dataFetchCallback={dataProcessor}
     >
       <Button className={$.button} variant="outlined" onClick={onClick}>{buttonText}</Button>
       <span className={$.description}>{description}</span>

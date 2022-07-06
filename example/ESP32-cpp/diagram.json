@@ -7,9 +7,9 @@
     {
       "type": "wokwi-dht22",
       "id": "dht1",
-      "top": -229.7,
-      "left": 89.17,
-      "attrs": { "temperature": "23.7", "humidity": "44" }
+      "top": -297.07,
+      "left": 96.58,
+      "attrs": { "temperature": "23.7", "humidity": "53" }
     },
     { "type": "wokwi-rgb-led", "id": "rgb1", "top": -204.2, "left": 171.78, "attrs": {} },
     {
@@ -25,8 +25,6 @@
   "connections": [
     [ "esp:TX0", "$serialMonitor:RX", "", [] ],
     [ "esp:RX0", "$serialMonitor:TX", "", [] ],
-    [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
-    [ "dht1:SDA", "esp:D4", "green", [ "v0" ] ],
     [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ],
     [ "rgb1:COM", "esp:3V3", "black", [ "v0" ] ],
     [ "rgb1:R", "esp:D15", "red", [ "v0" ] ],
@@ -41,6 +39,8 @@
     [ "oled1:CLK", "esp:D22", "pink", [ "v-54.28", "h343.65", "v99.61" ] ],
     [ "oled1:VIN", "esp:VIN", "red", [ "v-42.85", "h-105.23", "v249.84", "h277.59", "v-26.94" ] ],
     [ "oled1:GND", "esp:GND.2", "black", [ "v-35", "h-125.03", "v251.47", "h281.68", "v-31.84" ] ],
-    [ "oled1:DATA", "esp:D21", "green", [ "v-61.63", "h346.94", "v134.72" ] ]
+    [ "oled1:DATA", "esp:D21", "green", [ "v-61.63", "h346.94", "v134.72" ] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "dht1:SDA", "esp:D19", "green", [ "v0" ] ]
   ]
 }

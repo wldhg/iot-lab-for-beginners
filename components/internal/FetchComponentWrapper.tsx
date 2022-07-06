@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import moment from 'moment';
+
+import GlobalContext from '../../context/global';
 
 import $ from './FetchComponentWrapper.module.scss';
 
 export interface FetchComponentBaseProps {
   label: string
   dataID: string
-  dataFetchInterval?: number
+  // eslint-disable-next-line react/no-unused-prop-types
+  dataDispID?: string
   action?: string
 };
 
 interface ComponentProps extends FetchComponentBaseProps {
-  dataFetchCallback: (data: any[][]) => void
   dataFetchCount?: number
   children?: React.ReactElement | React.ReactElement[]
   className?: string
@@ -21,41 +21,13 @@ interface ComponentProps extends FetchComponentBaseProps {
 
 export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: ComponentProps) {
   const {
-    children, label, dataID, dataFetchInterval, dataFetchCount, dataFetchCallback, className,
-    action,
+    children, label, dataID, dataFetchCount, className, action,
   } = props;
+  const { addUpdateTarget } = useContext(GlobalContext);
 
   useEffect(() => {
-    const dataFetch = () => {
-      axios({
-        method: 'get',
-        url: '/api/load',
-        headers: {
-          'query-key': dataID,
-          'query-count': Number(dataFetchCount).toString(),
-          'query-action': action || '__unknown',
-        },
-        responseType: 'json',
-      }).then((res) => {
-        if ('code' in res.data && res.data.code === 0) {
-          const data = res.data.data as FixedLengthArray<number, 2>[];
-          const momentedData = data.map((item) => ([moment(item[0]), item[1]]));
-          dataFetchCallback(momentedData);
-        } else {
-          console.error('Response code was not zero.'); // eslint-disable-line no-console
-          console.error(res); // eslint-disable-line no-console
-        }
-      }).catch(console.error); // eslint-disable-line no-console
-    };
-
-    dataFetch();
-
-    if (typeof dataFetchInterval === 'number' && dataFetchInterval > 0) {
-      const interval = setInterval(dataFetch, dataFetchInterval);
-      return () => clearInterval(interval);
-    }
-    return () => 0;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    addUpdateTarget(dataID, dataFetchCount || 1, action || '__unknown');
+  }, [dataID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let finalClassName = $.container;
   if (className) {
@@ -72,8 +44,8 @@ export const FetchComponentWrapper: React.FC<ComponentProps> = function (props: 
 
 FetchComponentWrapper.defaultProps = {
   children: undefined,
-  dataFetchInterval: 1000,
   dataFetchCount: 1,
+  dataDispID: '__unknown',
   className: undefined,
   action: '__unknown',
 };

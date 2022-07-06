@@ -60,6 +60,11 @@ const saveData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
       return null;
     }).filter(Boolean);
 
+  const putDataInObject = (obj: object) => ({
+    ...obj,
+    receivedData,
+  });
+
   const dbMutexRelease2 = await dbMutex.acquire();
   const data = db.data || {};
   receivedData.forEach((obj: { [key: string]: string; }) => {
@@ -79,10 +84,18 @@ const saveData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
     }
   });
   db.data = data;
-  await db.write();
-  dbMutexRelease2();
-
-  log.info(doResponse());
+  let isSaveSuccessful = false;
+  while (!isSaveSuccessful) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await db.write();
+      isSaveSuccessful = true;
+      dbMutexRelease2();
+      log.info(putDataInObject(doResponse()));
+    } catch (e) {
+      log.error(e);
+    }
+  }
 };
 
 export default saveData;

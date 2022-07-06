@@ -11,35 +11,32 @@ const Page: React.FC = function () {
   return (
     <PageWrapper title="IoT Lab Example">
       <ControlGroup label="DHT Sensor">
-        <NumberDisplay label="Temperature" dataID="temperature" dataFetchInterval={1000} unit="℃" />
-        <NumberDisplay label="Humidity" dataID="humidity" dataFetchInterval={1000} unit="%" />
+        <NumberDisplay label="Temperature" dataID="temperature" unit="℃" />
+        <NumberDisplay label="Humidity" dataID="humidity" unit="%" />
         <ConditionLight
           label="Air Humidity Condition"
           dataID="humidity"
-          dataFetchInterval={1000}
           coloringRule={(humidity: number) => (humidity < 85 ? '#00FF00' : '#FF0000')}
         />
       </ControlGroup>
-      {/*
       <ControlGroup label="H/T Inference">
         <NumberDisplay
           label="Temperature After 1m"
           dataID="temperature"
+          dataDispID="temperature-inf"
           action="inference"
-          dataFetchInterval={1000}
           unit="℃"
         />
         <NumberDisplay
           label="Humidity After 1m"
           dataID="humidity"
+          dataDispID="humidity-inf"
           action="inference"
-          dataFetchInterval={1000}
           unit="%"
         />
       </ControlGroup>
-      */}
       <ControlGroup label="Light Control">
-        <NumberDisplay label="LUX" dataID="lux" dataFetchInterval={1000} unit="LUX" />
+        <NumberDisplay label="LUX" dataID="lux" unit="LUX" />
         <PushButton label="Query LUX" dataID="update-lux" buttonText="Query" description="This takes few seconds." />
         <ToggleSwitch label="LED" dataID="config-light" description="It takes few seconds to be applied." />
       </ControlGroup>
