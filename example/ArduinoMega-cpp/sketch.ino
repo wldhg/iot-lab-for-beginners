@@ -1,12 +1,15 @@
 #include <DHT.h>
 #include <AsyncTimer.h>
 #include <Vegemite.h>
+#include <SoftPWM.h>
 
 auto SOILMOIST_PIN = A6;
 auto DHT22_PIN = A1;
+auto FAN_PIN = A3;
 auto PUMP_PIN = 16;
 auto LAMP_PIN = 17;
 
+SoftPWM_DEFINE_CHANNEL(FAN_PIN);
 DHT dht(DHT22_PIN, DHT22);
 AsyncTimer t;
 Vegemite v;
@@ -15,6 +18,7 @@ bool currentPumpWorking = false;
 
 void setup() {
   Serial.begin(250000);
+  SoftPWM.begin(490);
   dht.begin();
 
   pinMode(SOILMOIST_PIN, INPUT);
@@ -22,6 +26,7 @@ void setup() {
   pinMode(LAMP_PIN, OUTPUT);
 
   v.requestSubscription("config-light");
+  v.requestSubscription("config-fan");
   v.requestSubscription("pump-water");
 
   t.setInterval([]() {
@@ -42,6 +47,7 @@ void setup() {
   t.setInterval([]() {
     int pumpWater = int(v.recv("pump-water"));
     int lightConf = int(v.recv("config-light"));
+    int fanSpeed = int(v.recv("config-fan"));
 
     if (pumpWater == 1 && !currentPumpWorking) {
       currentPumpWorking = true;
@@ -54,6 +60,7 @@ void setup() {
     }
 
     digitalWrite(LAMP_PIN, lightConf == 1 ? HIGH : LOW);
+    SoftPWM.set(fanSpeed);
   }, 500);
 }
 

@@ -19,6 +19,7 @@ const Page: React.FC = function () {
           coloringRule={(humidity: number) => (humidity < 85 ? '#00FF00' : '#FF0000')}
         />
       </ControlGroup>
+      {/*
       <ControlGroup label="H/T Inference">
         <NumberDisplay
           label="Temperature After 1m"
@@ -35,19 +36,25 @@ const Page: React.FC = function () {
           unit="%"
         />
       </ControlGroup>
-      <ControlGroup label="Light Control">
-        <NumberDisplay label="LUX" dataID="lux" unit="LUX" />
-        <PushButton label="Query LUX" dataID="update-lux" buttonText="Query" description="This takes few seconds." />
-        <ToggleSwitch label="LED" dataID="config-light" description="It takes few seconds to be applied." />
+      */}
+      <ControlGroup label="Soil Control">
+        <NumberDisplay label="Soil Moisture" dataID="soilmoist" unit="%" />
+        <PushButton
+          label="Pump"
+          dataID="pump-water"
+          buttonText="Pump Up"
+          description="Push this button to pump water for 5 seconds"
+        />
+        <ToggleSwitch label="LED" dataID="config-light" />
       </ControlGroup>
-      <ControlGroup label="Servo Control">
+      <ControlGroup label="Fan Control">
         <SliderControl
-          label="Angle"
-          dataID="config-servo"
+          label="Fan Speed"
+          dataID="config-fan"
           min={0}
-          max={180}
+          max={100}
           description="It takes few seconds to be applied."
-          unit="°"
+          unit="%"
         />
       </ControlGroup>
     </PageWrapper>

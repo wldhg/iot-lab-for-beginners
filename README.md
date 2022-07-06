@@ -28,8 +28,10 @@
 6. Edit line 14, `your-ip-or-domain` to your server's IP address or domain. \
     If you are using port rather than `3000` on your server, also edit line 14, `3000` to your port number.
 7. Run the simulation using the green start button.
-8. Go to `http://your-ip-or-domain:port/panel/example`.
+8. Go to `http://your-ip-or-domain:port/panel/example1`.
 9. Enjoy!
+
+Note: If you are a lecturer and if you want to use wokwi.com in your class, first contact the administrator of wokwi.com to get dedicated build servers and gateways. You may have to pay for them.
 
 ### How To Use IoT Control Panel with VitCon IoT-MODLINK:
 
@@ -44,10 +46,10 @@
 9. Configure VitCon IoT-MODLINK WiFi-LINK with [this Android app](https://play.google.com/store/apps/details?id=vitcon.wificonnectionmanager) or [this iOS app](https://apps.apple.com/app/wifi-connection-manager/id1422994754). Host is `your-ip-or-domain` and port is `3010`.
 10. Open `example/ArduinoMega-cpp/sketch.ino` and compile it.
 11. Upload the program.
-12. Go to `http://your-ip-or-domain:port/panel/example`.
+12. Go to `http://your-ip-or-domain:port/panel/example2`.
 13. Enjoy!
 
-### How To Use AIoT Remote Inference:
+### How To Use Inference Model:
 
 1. If you want to use a pre-trained model, skip to step 5.
 2. Gather data named `humidity` and `temperature` from your IoT device (or wokwi simulator) into `db.json`.
@@ -58,10 +60,10 @@
 6. Uncomment "H/T Inference" section of `pages/panel/example.tsx`. \
     i.e. delete two lines(`{/*` and `*/}`).
 7. Re-run the server. `npm run dev`
-8. Go to `http://your-ip-or-domain:port/panel/example`.
+8. Go to `http://your-ip-or-domain:port/panel/example1` or `example2`.
 9. Enjoy!
 
-Note that the pre-trained model is not accurate. It is just a simple example to show how inference can work.
+Note that the pre-trained model in this repository is not accurate. It is just a simple example to show how inference can work.
 
 ---
 
