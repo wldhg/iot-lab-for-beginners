@@ -9,7 +9,7 @@ auto FAN_PIN = A3;
 auto PUMP_PIN = 16;
 auto LAMP_PIN = 17;
 
-SoftPWM_DEFINE_CHANNEL(FAN_PIN);
+SOFTPWM_DEFINE_CHANNEL(FAN_PIN);
 DHT dht(DHT22_PIN, DHT22);
 AsyncTimer t;
 Vegemite v;
