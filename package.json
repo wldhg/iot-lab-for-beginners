@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "broker": "node --loader ts-node/esm ./broker/main.ts"
+    "broker": "node --loader ts-node/esm ./broker/main.ts",
+    "init": "node --loader ts-node/esm ./example/init-for-students.ts"
   },
   "engines": {
     "node": ">=16.0.0"
