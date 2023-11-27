@@ -1,5 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// eslint-disable-next-line no-underscore-dangle
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 fs.rmSync(path.join(__dirname, '../.git'), { force: true, recursive: true });
 fs.rmSync(path.join(__dirname, '../components/SliderControl.tsx'), { force: true });
