@@ -1,11 +1,18 @@
-import net from 'net';
-import pino, { P } from 'pino';
 import axios from 'axios';
+import net from 'net';
+import pino from 'pino';
 
 const port = 3010;
 const apiPort = 3000;
 
-const log = pino();
+const log = pino({
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+    },
+  },
+});
 const subReqMagicCode = 'VEGEMITE_SPECIAL_CMD_SUBSCRIBE';
 const subIntMagicCode = 'VEGEMITE_SPECIAL_CMD_SUBSCRIBE_INTERVAL';
 const subActMagicCode = 'VEGEMITE_SPECIAL_CMD_SUBSCRIBE_ACTION';

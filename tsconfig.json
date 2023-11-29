@@ -18,7 +18,6 @@
       ]
     },
     "allowSyntheticDefaultImports": true,
-    "keyofStringsOnly": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
