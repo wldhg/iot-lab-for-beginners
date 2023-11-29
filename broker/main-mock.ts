@@ -50,6 +50,7 @@ fsp.readdir('/dev').then((files) => {
         parsedLine = JSON.parse(line);
       } catch (e) {
         log.error(`>I ${e}`);
+        log.error(`>I ${line}`);
         return;
       }
       if (line.indexOf(subReqMagicCode) >= 0) {

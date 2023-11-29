@@ -39,6 +39,7 @@ net.createServer((sock) => {
           parsedLine = JSON.parse(line);
         } catch (e) {
           log.error(`>I [${sock.remoteAddress}:${sock.remotePort}] ${e}`);
+          log.error(`>I [${sock.remoteAddress}:${sock.remotePort}] ${line}`);
           return;
         }
         if (line.indexOf(subReqMagicCode) >= 0) {
