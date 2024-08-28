@@ -37,8 +37,7 @@ void Vegemite::_storeBuffer() {
             !(*doc).isNull()) {
           JsonObjectConst json = (*doc).as<JsonObjectConst>();
           ATOMIC() {
-            while (_bufferLocked)
-              ;
+            while (_bufferLocked);
             _bufferLocked = true;
           }
           for (JsonPairConst kv : json) {
@@ -68,8 +67,7 @@ void Vegemite::_storeBuffer() {
 void Vegemite::_writeToStream(DynamicJsonDocument* doc) {
   String strBuffer;
   serializeJson(*doc, strBuffer);
-  while (!VEGEMITE_STREAM)
-    ;
+  while (!VEGEMITE_STREAM);
   _stream->write(strBuffer.c_str());
   _stream->write(0b00010110);
   _stream->write(0b00001101);
@@ -79,8 +77,7 @@ void Vegemite::_writeToStream(DynamicJsonDocument* doc) {
 void Vegemite::_writeToStream(StaticJsonDocument<V_RES_BUFFER_SIZE>* doc) {
   String strBuffer;
   serializeJson(*doc, strBuffer);
-  while (!VEGEMITE_STREAM)
-    ;
+  while (!VEGEMITE_STREAM);
   _stream->write(strBuffer.c_str());
   _stream->write(0b00010110);
   _stream->write(0b00001101);
@@ -89,8 +86,8 @@ void Vegemite::_writeToStream(StaticJsonDocument<V_RES_BUFFER_SIZE>* doc) {
 
 void Vegemite::requestSubscription(const char dataID[]) {
   StaticJsonDocument<V_RES_BUFFER_SIZE> doc;
-  doc["VEGEMITE_SPECIAL_CMD_SUBSCRIBE"] = dataID;
-  doc["VEGEMITE_SPECIAL_CMD_SUBSCRIBE_INTERVAL"] = V_DEFAULT_PING_INTERVAL;
+  doc["_VEGEMITE_SUB"] = dataID;
+  doc["_VEGEMITE_SUB_INTERVAL"] = V_DEFAULT_PING_INTERVAL;
   _writeToStream(&doc);
   _subtimers[dataID] = millis();
 }
@@ -101,18 +98,17 @@ void Vegemite::requestOnce(const char dataID[]) {
 
 void Vegemite::requestOnce(const char dataID[], const char action[]) {
   StaticJsonDocument<V_RES_BUFFER_SIZE> doc;
-  doc["VEGEMITE_SPECIAL_CMD_SUBSCRIBE"] = dataID;
-  doc["VEGEMITE_SPECIAL_CMD_SUBSCRIBE_INTERVAL"] = V_DEFAULT_PING_INTERVAL;
+  doc["_VEGEMITE_SUB"] = dataID;
+  doc["_VEGEMITE_SUB_INTERVAL"] = V_DEFAULT_PING_INTERVAL;
   if (action != nullptr) {
-    doc["VEGEMITE_SPECIAL_CMD_SUBSCRIBE_ACTION"] = action;
+    doc["_VEGEMITE_SUB_ACTION"] = action;
   }
   _writeToStream(&doc);
 }
 
 float Vegemite::recv(const char dataID[]) {
   ATOMIC() {
-    while (_bufferLocked)
-      ;
+    while (_bufferLocked);
     _bufferLocked = true;
   }
   if (_buffer.exists(dataID)) {
