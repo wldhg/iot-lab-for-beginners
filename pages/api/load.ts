@@ -84,6 +84,8 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
 
   switch (action) {
     case 'set-zero':
+      // return first, then save
+      log.info(doResponse(retData));
       axios({
         method: 'post',
         url: `http://${I.headers.host}/api/save`,
@@ -92,7 +94,6 @@ const loadData = async (I: http.IncomingMessage, O: http.OutgoingMessage) => {
         },
         data: keys.map((key) => `${key}=0`).join('\n'),
       }).catch(log.error);
-      log.info(doResponse(retData));
       break;
 
     case 'inference':

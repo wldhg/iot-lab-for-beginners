@@ -10,9 +10,11 @@ fs.rmSync(path.join(__dirname, '../components/SliderControl.tsx'), { force: true
 fs.rmSync(path.join(__dirname, '../components/SliderControl.module.scss'), { force: true });
 fs.rmSync(path.join(__dirname, '../example/ArduinoMega-cpp'), { force: true, recursive: true });
 fs.rmSync(path.join(__dirname, '../example/ESP32-cpp'), { force: true, recursive: true });
+fs.rmSync(path.join(__dirname, '../example/MODLINK-cpp'), { force: true, recursive: true });
 fs.rmSync(path.join(__dirname, '../example/inference'), { force: true, recursive: true });
 fs.rmSync(path.join(__dirname, '../pages/panel/example1.tsx'), { force: true });
 fs.rmSync(path.join(__dirname, '../pages/panel/example2.tsx'), { force: true });
+fs.rmSync(path.join(__dirname, '../pages/panel/example3.tsx'), { force: true });
 fs.rmSync(path.join(__dirname, '../README.md'), { force: true });
 fs.rmSync(path.join(__dirname, '../public/screenshot-web.png'), { force: true });
 fs.rmSync(path.join(__dirname, '../public/screenshot-wokwi.png'), { force: true });

@@ -6,8 +6,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "broker": "node --loader ts-node/esm ./broker/main.ts",
-    "broker-mock": "node --loader ts-node/esm ./broker/main-mock.ts",
+    "broker-v2": "node --loader ts-node/esm ./broker/main-v2.ts",
+    "broker-v2-mock": "node --loader ts-node/esm ./broker/main-v2-mock.ts",
+    "broker-v1": "node --loader ts-node/esm ./broker/main-v1.ts",
+    "broker-v1-mock": "node --loader ts-node/esm ./broker/main-v1-mock.ts",
     "init": "node --loader ts-node/esm ./example/init-for-students.ts"
   },
   "engines": {

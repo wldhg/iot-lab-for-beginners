@@ -50,7 +50,7 @@ fsp
         log.debug(`>I ${line}`);
         let parsedLine: any = {};
         try {
-          parsedLine = JSON.parse(line);
+          parsedLine = JSON.parse(line.trim());
         } catch (e) {
           log.error(`>I ${e}`);
           log.error(`>I ${line}`);

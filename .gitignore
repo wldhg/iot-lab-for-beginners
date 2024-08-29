@@ -246,10 +246,8 @@ cover/
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
-
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
