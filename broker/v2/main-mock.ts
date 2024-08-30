@@ -3,6 +3,7 @@ import axios from 'axios';
 import fsp from 'fs/promises';
 import pino from 'pino';
 import { SerialPort } from 'serialport';
+import { makeVSResponse, parseVSRequest, VS_SEP } from './protocol';
 
 const apiPort = 3000;
 
@@ -15,16 +16,11 @@ const log = pino({
   },
   level: 'debug',
 });
-const reqTypeKey = '_VGMT';
-const reqDataKey = '_VGMT_K';
-const reqDataValue = '_VGMT_V';
-const vegimiteMagicCodeS = '_VGMT_S_';
-const vegimiteMagicCodeE = '_VGMT_E_';
 
 fsp
   .readdir('/dev')
   .then((files) => {
-    const ttyUSB = files.find((file) => file.startsWith('ttyUSB') || file.startsWith('cu.usbmodem'));
+    const ttyUSB = files.find((file) => file.startsWith('ttyUSB') || file.startsWith('cu.usbmodem') || file.startsWith('ttyACM'));
     if (ttyUSB) {
       log.info(`Found ttyUSB: ${ttyUSB}`);
       return new SerialPort({
@@ -35,48 +31,35 @@ fsp
     throw new Error('No ttyUSB found');
   })
   .then((port) => {
-    const parser = new DelimiterParser({ delimiter: vegimiteMagicCodeS });
+    const parser = new DelimiterParser({ delimiter: VS_SEP });
     const clientID = port.path;
 
     parser.on('data', (line) => {
       if (line.length > 0) {
         log.debug(`>I ${line}`);
-        let parsedLine: Record<string, any> = {};
-        try {
-          parsedLine = JSON.parse(String(line).trim());
-        } catch (e) {
-          log.error(`>I ${e}`);
-          log.error(
-            `>I ${line}`,
-          );
-          return;
-        }
-        if (reqTypeKey in parsedLine) {
-          if (parsedLine[reqTypeKey] === 'PUT') {
-            const key = parsedLine[reqDataKey];
-            const value = parsedLine[reqDataValue];
-            const nValue = Number.parseFloat(value as string);
+        const reqs = parseVSRequest(line, log);
+        reqs.forEach((req) => {
+          if (req.action === 'PUT') {
             log.info(
-              `I> ${key}=${nValue} (${value})`,
+              `I> ${req.key}=${req.value}`,
             );
-            if (!Number.isNaN(nValue)) {
+            if (!Number.isNaN(req.value)) {
               axios({
                 method: 'post',
                 url: `http://localhost:${apiPort}/api/save`,
                 headers: {
                   'Content-Type': 'text/plain',
                 },
-                data: `${key}=${nValue}`,
+                data: `${req.key}=${req.value}`,
               }).catch(log.error.bind(log));
             }
-          } else if (parsedLine[reqTypeKey].startsWith('GET')) {
-            const hasAction = parsedLine[reqTypeKey].split('+').length >= 2;
-            const action = hasAction ? parsedLine[reqTypeKey].split('+')[1] : '';
-            const key = parsedLine[reqDataKey];
+          } else if (req.action.startsWith('GET')) {
+            const hasAction = req.action.split('+').length >= 2;
+            const action = hasAction ? req.action.split('+')[1] : '';
             axios
               .get(`http://localhost:${apiPort}/api/load`, {
                 headers: {
-                  'query-key': key,
+                  'query-key': req.key,
                   'query-count': 1,
                   'query-action': action,
                 },
@@ -93,17 +76,13 @@ fsp
                   }
                 }
                 log.info(
-                  `<O Return for ${key} ${parsedLine[reqTypeKey]} is ${returnVal}.`,
+                  `<O Return for ${req.key} ${req.action} is ${returnVal}.`,
                 );
-                port.write(
-                  `${vegimiteMagicCodeS}${returnVal}${vegimiteMagicCodeE}`,
-                );
+                port.write(makeVSResponse(req.key, returnVal));
               })
               .catch(log.error.bind(log));
           }
-        } else {
-          log.warn(`>I UNKNOWN: ${line}`);
-        }
+        });
       }
     });
 

@@ -31,7 +31,7 @@ const subscribers: {
 fsp
   .readdir('/dev')
   .then((files) => {
-    const ttyUSB = files.find((file) => file.startsWith('ttyUSB'));
+    const ttyUSB = files.find((file) => file.startsWith('ttyUSB') || file.startsWith('cu.usbmodem') || file.startsWith('ttyACM'));
     if (ttyUSB) {
       log.info(`Found ttyUSB: ${ttyUSB}`);
       return new SerialPort({

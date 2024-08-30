@@ -1,6 +1,7 @@
 import axios from 'axios';
 import net from 'net';
 import pino from 'pino';
+import { makeVSResponse, parseVSRequest, VS_SEP } from './protocol';
 
 const port = 3010;
 const apiPort = 3000;
@@ -14,11 +15,6 @@ const log = pino({
   },
   level: 'debug',
 });
-const reqTypeKey = '_VGMT';
-const reqDataKey = '_VGMT_K';
-const reqDataValue = '_VGMT_V';
-const vegimiteMagicCodeS = '_VGMT_S_';
-const vegimiteMagicCodeE = '_VGMT_E_';
 
 net
   .createServer((sock) => {
@@ -26,46 +22,33 @@ net
     log.info(`+ [${clientID}] connected`);
     sock.on('data', (data) => {
       data
-        .toString().split(vegimiteMagicCodeS)
+        .toString().split(VS_SEP)
         .forEach((line, idx, arr) => {
           if (line.length > 0) {
             log.debug(`>I [${sock.remoteAddress}:${sock.remotePort}] ${line}`);
-            let parsedLine: Record<string, any> = {};
-            try {
-              parsedLine = JSON.parse(line.trim());
-            } catch (e) {
-              log.error(`>I [${sock.remoteAddress}:${sock.remotePort}] ${e}`);
-              log.error(
-                `>I [${sock.remoteAddress}:${sock.remotePort}] ${line}`,
-              );
-              return;
-            }
-            if (reqTypeKey in parsedLine) {
-              if (parsedLine[reqTypeKey] === 'PUT') {
-                const key = parsedLine[reqDataKey];
-                const value = parsedLine[reqDataValue];
-                const nValue = Number.parseFloat(value as string);
+            const reqs = parseVSRequest(line, log);
+            reqs.forEach((req) => {
+              if (req.action === 'PUT') {
                 log.info(
-                  `I> [${sock.remoteAddress}:${sock.remotePort}] ${key}=${nValue} (${value})`,
+                  `I> [${sock.remoteAddress}:${sock.remotePort}] ${req.key}=${req.value}`,
                 );
-                if (!Number.isNaN(nValue)) {
+                if (!Number.isNaN(req.value)) {
                   axios({
                     method: 'post',
                     url: `http://localhost:${apiPort}/api/save`,
                     headers: {
                       'Content-Type': 'text/plain',
                     },
-                    data: `${key}=${nValue}`,
+                    data: `${req.key}=${req.value}`,
                   }).catch(log.error.bind(log));
                 }
-              } else if (parsedLine[reqTypeKey].startsWith('GET')) {
-                const hasAction = parsedLine[reqTypeKey].split('+').length >= 2;
-                const action = hasAction ? parsedLine[reqTypeKey].split('+')[1] : '';
-                const key = parsedLine[reqDataKey];
+              } else if (req.action.startsWith('GET')) {
+                const hasAction = req.action.split('+').length >= 2;
+                const action = hasAction ? req.action.split('+')[1] : '';
                 axios
                   .get(`http://localhost:${apiPort}/api/load`, {
                     headers: {
-                      'query-key': key,
+                      'query-key': req.key,
                       'query-count': 1,
                       'query-action': action,
                     },
@@ -84,17 +67,13 @@ net
                     log.info(
                       `<O [${sock.remoteAddress}:${
                         sock.remotePort
-                      }] Return for ${key} ${parsedLine[reqTypeKey]} is ${returnVal}.`,
+                      }] Return for ${req.key} ${req.action} is ${returnVal}.`,
                     );
-                    sock.write(
-                      `${vegimiteMagicCodeS}${returnVal}${vegimiteMagicCodeE}`,
-                    );
+                    sock.write(makeVSResponse(req.key, returnVal));
                   })
                   .catch(log.error.bind(log));
               }
-            } else {
-              log.warn(`>I [${sock.remoteAddress}:${sock.remotePort}] UNKNOWN: ${line}`);
-            }
+            });
           }
         });
     });

@@ -18,6 +18,7 @@
 /pages/panel/*
 !/pages/panel/example1.tsx
 !/pages/panel/example2.tsx
+!/pages/panel/example3.tsx
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,yarn,nextjs,jupyternotebooks,pythonvanilla
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,node,yarn,nextjs,jupyternotebooks,pythonvanilla

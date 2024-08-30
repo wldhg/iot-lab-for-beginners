@@ -6,11 +6,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "broker-v2": "node --loader ts-node/esm ./broker/main-v2.ts",
-    "broker-v2-mock": "node --loader ts-node/esm ./broker/main-v2-mock.ts",
-    "broker-v1": "node --loader ts-node/esm ./broker/main-v1.ts",
-    "broker-v1-mock": "node --loader ts-node/esm ./broker/main-v1-mock.ts",
-    "init": "node --loader ts-node/esm ./example/init-for-students.ts"
+    "broker-v2": "tsx ./broker/v2/main.ts",
+    "broker-v2-mock": "tsx ./broker/v2/main-mock.ts",
+    "broker-v1": "tsx ./broker/v1/main.ts",
+    "broker-v1-mock": "tsx ./broker/v1/main-mock.ts",
+    "init": "tsx ./example/init-for-students.ts"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -43,7 +43,7 @@
     "react-dom": "^17.0.2",
     "sass": "^1.49.9",
     "serialport": "^12.0.0",
-    "ts-node": "^10.8.2",
+    "tsx": "^4.19.0",
     "typescript": "^4.6.2",
     "webpack": "^5.70.0"
   },
