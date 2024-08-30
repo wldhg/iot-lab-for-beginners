@@ -6,12 +6,12 @@ export type VSRequest = {
   value: number;
   action: 'PUT';
 } | {
-  action: 'GET' | 'GET+set-zero';
+  action: 'GET' | 'GET+set-zero' | 'GET+inference';
 });
 
 export const parseVSRequest = (line: string, log: Logger): VSRequest[] => {
   let parsedLine: Record<string, number> = {};
-  line.trim().split(VS_SEP).forEach((l) => {
+  String(line).trim().split(VS_SEP).forEach((l) => {
     try {
       parsedLine = { ...parsedLine, ...JSON.parse(l.trim()) };
     } catch (e) {
@@ -39,6 +39,11 @@ export const parseVSRequest = (line: string, log: Logger): VSRequest[] => {
         return {
           key: realKey,
           action: 'GET+set-zero',
+        };
+      } if (key.startsWith('GET+inference!!')) {
+        return {
+          key: realKey,
+          action: 'GET+inference',
         };
       }
       log.warn(`>I Unknown action: ${key}`);

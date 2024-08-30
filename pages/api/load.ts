@@ -147,7 +147,7 @@ const inferData = async (dataID: string, data: DBContent) : Promise<DBContent> =
     onnxSessions.set(dataID, session);
   }
 
-  const inputTensor = new Tensor('float32', data.slice(-1 * dataRequiredCount).map(([_, d]) => d), [1, dataRequiredCount, 1]);
+  const inputTensor = new Tensor('float32', data.slice(-1 * dataRequiredCount).map(([_, d]) => d), [1, dataRequiredCount]);
 
   return session.run({ input: inputTensor }).then((outputs) => {
     const timestampAddi = timestamp + onnxMapping.mappings[dataID].timestamp_addi * 1000;

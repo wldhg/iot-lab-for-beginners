@@ -70,8 +70,11 @@ fsp
                   if (res.data?.data?.length >= 1) {
                     const resData = res.data.data;
                     if (resData[0][1].length >= 1) {
-                      // TODO: 단말에서의 inferencing 값 요청 대응
-                      returnVal = resData[0][1][0][1] as number;
+                      if (action === 'inference') {
+                        returnVal = resData.find((d: any) => d[0].indexOf('-inf') > 0)[1][0][1] as number;
+                      } else {
+                        returnVal = resData[0][1][0][1] as number;
+                      }
                     }
                   }
                 }
